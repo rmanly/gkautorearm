@@ -1,0 +1,13 @@
+#!/bin/bash
+
+gkstate=$(/usr/bin/defaults read /Library/Preferences/com.apple.security GKAutoRearm 2> /dev/null)
+
+if [[ $gkstate == 0 ]]; then
+    /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "GKAutoRearm disabled"
+    /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "Nothing to be done at this time"
+    exit 1
+else
+    /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.warning "GKAutoRearm enabled or not explicitly set"
+    /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "GKAutoRearm will be disabled"
+    exit 0
+fi

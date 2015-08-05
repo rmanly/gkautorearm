@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>Ryan Manly</string>
+		<key>creation_date</key>
+		<date>2015-08-05T13:31:08Z</date>
+		<key>munki_version</key>
+		<string>2.2.4.2431</string>
+		<key>os_version</key>
+		<string>10.10.4</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>testing</string>
+	</array>
+	<key>description</key>
+	<string>Disables Gatekeeper's 30 day timeout for automatically renabling</string>
+	<key>developer</key>
+	<string>Ryan Manly</string>
+	<key>display_name</key>
+	<string>GkAutoRearm Disabler</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/bash
+
+      gkstate=$(/usr/bin/defaults read /Library/Preferences/com.apple.security GKAutoRearm 2&gt; /dev/null)
+
+      if [[ $gkstate == 0 ]]; then
+      /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "GKAutoRearm disabled"
+      /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "Nothing to be done at this time"
+      exit 1
+      else
+      /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.warning "GKAutoRearm enabled or not explicitly set"
+      /usr/bin/logger -t GKAUTOREARM_INSTALLCHECK -p local0.notice "GKAutoRearm will be disabled"
+      exit 0
+      fi
+    </string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.10</string>
+	<key>name</key>
+	<string>gkautorearm_disabler</string>
+	<key>postinstall_script</key>
+	<string>#!/bin/bash
+
+      /usr/bin/defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool false
+    </string>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstall_script</key>
+	<string>#!/bin/bash
+
+      /usr/bin/defaults write /Library/Preferences/com.apple.security GKAutoRearm -bool true
+    </string>
+	<key>version</key>
+	<string>0.1</string>
+</dict>
+</plist>
