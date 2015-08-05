@@ -24,7 +24,7 @@
 	<key>developer</key>
 	<string>Ryan Manly</string>
 	<key>display_name</key>
-	<string>GkAutoRearm Disabler</string>
+	<string>GKAutoRearm Disabler</string>
 	<key>installcheck_script</key>
 	<string>#!/bin/bash
 
